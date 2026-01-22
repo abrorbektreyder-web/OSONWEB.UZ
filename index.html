@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>OSONWEB.UZ — Digital Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ---------------- SOZLAMALAR ---------------- */
+        :root {
+            --bg-dark: #05080f;
+            --bg-card: #0f1422;
+            --bg-card-hover: #161b2e;
+            --text-main: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --primary: #6cf2c2;
+            --secondary: #5a7cff;
+            --border: rgba(255, 255, 255, 0.08);
+            --blur: blur(12px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(90, 124, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(108, 242, 194, 0.04) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding { padding: 120px 0; }
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
+        .section-subtitle { color: var(--text-muted); margin-bottom: 60px; font-size: 1.1rem; max-width: 600px; }
+
+        /* ---------------- NAVIGATION (LOGO O'ZGARTIRILDI) ---------------- */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 10px 0;
+            background: rgba(5, 8, 15, 0.85);
+            backdrop-filter: var(--blur); border-bottom: 1px solid var(--border);
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* YANGI LOGO STILI */
+        .logo { 
+            font-weight: 900; 
+            font-size: 1.8rem; /* Kattalashtirildi */
+            color: #fff; 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center;
+            letter-spacing: 1px; /* Harflar orasi ochildi (premium his) */
+            text-shadow: 0 0 15px rgba(108, 242, 194, 0.4); /* Yengil neon nur */
+        }
+        .logo span { color: var(--primary); }
+        
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition); font-weight: 500; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; color: #fff; z-index: 1001; }
+
+        /* ---------------- HERO SECTION ---------------- */
+        .hero { 
+            min-height: 100vh; 
+            display: flex; align-items: center; 
+            padding-top: 85px; 
+            position: relative; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
+
+        .hero-text h1 { 
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            font-weight: 900; 
+            line-height: 1.1; margin-bottom: 20px; letter-spacing: -1.5px;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .typing-wrapper { color: var(--primary); -webkit-text-fill-color: var(--primary); }
+        .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; max-width: 500px; font-weight: 400; }
+
+        .btn { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; 
+            padding: 14px 30px; border-radius: 50px; font-weight: 600; 
+            text-decoration: none; transition: var(--transition); cursor: pointer; border: none; font-size: 1rem;
+        }
+        .btn:hover { transform: translateY(-4px); }
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-primary { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(108, 242, 194, 0.4); }
+        .btn-outline { border: 1px solid var(--border); color: #fff; background: transparent; }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+        /* HERO IMAGE */
+        .hero-image-box {
+            position: relative; width: 100%; max-width: 400px; height: 500px; z-index: 1;
+            border: 1px solid var(--border); padding: 10px; border-radius: 30px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            margin: 0 auto; margin-top: -20px; 
+        }
+        .hero-image-box img {
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            object-position: center 20%;
+            transform: scale(0.95);    
+            border-radius: 22px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transition: var(--transition);
+        }
+        .hero-image-box:hover img { transform: scale(0.97); }
+
+        /* ---------------- TECH STACK ---------------- */
+        .tech-stack { padding: 30px 0; border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); background: rgba(255,255,255,0.01); }
+        .tech-icons { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.6; }
+        .tech-icons i { font-size: 2.2rem; transition: var(--transition); }
+        .tech-icons i:hover { opacity: 1; transform: scale(1.1); color: var(--primary); }
+
+        /* ---------------- ABOUT ME ---------------- */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-text h3 { color: var(--secondary); margin-bottom: 15px; font-size: 1.6rem; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-box { 
+            background: var(--bg-card); padding: 25px; border-radius: 18px; 
+            border: 1px solid var(--border); text-align: center; transition: var(--transition);
+        }
+        .stat-box:hover { border-color: var(--secondary); transform: translateY(-5px); }
+        .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* ---------------- SERVICES ---------------- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card { 
+            background: var(--bg-card); padding: 35px; border-radius: 24px; 
+            border: 1px solid var(--border); transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; 
+            background: linear-gradient(90deg, var(--primary), var(--secondary)); opacity: 0; transition: var(--transition);
+        }
+        .service-card:hover { transform: translateY(-10px); background: var(--bg-card-hover); }
+        .service-card:hover::before { opacity: 1; }
+        .service-icon { 
+            width: 50px; height: 50px; background: rgba(108, 242, 194, 0.1); 
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: var(--primary); margin-bottom: 20px;
+        }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .service-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* ---------------- PROCESS ---------------- */
+        .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+        .process-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px;
+            position: relative; overflow: hidden; transition: var(--transition); min-height: 180px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .process-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(108, 242, 194, 0.1); transform: translateY(-5px); }
+        .process-bg-num {
+            position: absolute; top: -15px; right: -10px; font-size: 6rem; font-weight: 900;
+            color: rgba(255,255,255,0.03); line-height: 1; transition: var(--transition);
+        }
+        .process-card:hover .process-bg-num { color: rgba(108, 242, 194, 0.1); transform: scale(1.1); }
+        .process-title { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 8px; position: relative; z-index: 2; }
+        .process-desc { font-size: 0.9rem; color: var(--text-muted); position: relative; z-index: 2; }
+
+        /* ---------------- PORTFOLIO ---------------- */
+        .works-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .work-card { 
+            position: relative; height: 320px; border-radius: 24px; overflow: hidden; 
+            border: 1px solid var(--border); cursor: pointer; group: hover;
+        }
+        .work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .work-overlay { 
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,8,15,0.95), transparent); 
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; 
+            opacity: 0; transform: translateY(20px); transition: 0.4s ease;
+        }
+        .work-card:hover img { transform: scale(1.05); }
+        .work-card:hover .work-overlay { opacity: 1; transform: translateY(0); }
+        .work-cat { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 6px; font-weight: 700; }
+        .work-title { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .work-link { font-size: 0.9rem; color: #fff; display: flex; align-items: center; gap: 8px; }
+
+        /* ---------------- CONTACT SECTION (FAQAT RASM) ---------------- */
+        .contact-section {
+            position: relative;
+            background: url('images/dengiz-rasmi.jpg') no-repeat center center;
+            background-size: cover;
+            height: 250px; 
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-bottom: 0; 
+        }
+
+        .contact-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 8, 15, 0.4); 
+            z-index: 1;
+        }
+
+        /* ---------------- FOOTER (MATN VA TUGMALAR) ---------------- */
+        footer { 
+            text-align: center; 
+            padding: 60px 0 40px 0; 
+            background-color: var(--bg-dark); 
+            color: #64748b; font-size: 0.9rem; 
+        }
+
+        .contact-title-footer { font-size: 2.5rem; margin-bottom: 15px; color: #fff; font-weight: 800; }
+        .contact-text-footer { color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem; }
+
+        .contact-buttons-wrapper {
+            margin-bottom: 60px; 
+        }
+
+        .contact-grid { 
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; 
+        }
+
+        .btn-social { 
+            min-width: 220px; padding: 18px; border-radius: 16px; font-weight: 700; color: #fff; 
+            text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 12px;
+            transition: var(--transition); 
+        }
+        .btn-tg { background: #229ED9; box-shadow: 0 4px 20px rgba(34, 158, 217, 0.3); }
+        .btn-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 4px 20px rgba(220, 39, 67, 0.3); }
+        .btn-social:hover { transform: translateY(-5px); filter: brightness(1.1); }
+
+        /* ---------------- MOBILE RESPONSIVE ---------------- */
+        @media (max-width: 900px) {
+            .hamburger { display: block; }
+            .nav-links {
+                position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
+                background-color: rgba(5, 8, 15, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.8rem; margin: 10px 0; }
+            
+            .hero { padding-top: 60px; }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .btn-group { justify-content: center; }
+            .hero-image-box { width: 100%; max-width: 320px; height: 420px; margin-top: 0; }
+            
+            .about-grid { grid-template-columns: 1fr; gap: 30px; }
+            .contact-section { height: 180px; } 
+            .contact-title-footer { font-size: 2rem; }
+        }
+
+        /* MODAL */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal.show { display: flex; opacity: 1; }
+        .modal-content {
+            background-color: #0f1422; padding: 30px; border-radius: 24px; border: 1px solid var(--border);
+            max-width: 600px; width: 90%; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal.show .modal-content { transform: scale(1); }
+        .close-btn { float: right; font-size: 2rem; cursor: pointer; color: var(--text-muted); }
+        .modal-img { width: 100%; height: 250px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
+        
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">OSONWEB<span>.uz</span></a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about" onclick="toggleMenu()">Men haqimda</a></li>
+                <li><a href="#services" onclick="toggleMenu()">Xizmatlar</a></li>
+                <li><a href="#works" onclick="toggleMenu()">Portfolio</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Bog'lanish</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <div style="color: var(--primary); font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-bolt"></i> Salom, men Designer
+                </div>
+                <h1>Raqamli <br><span class="typing-wrapper" id="typing-text"></span><br>yarataman.</h1>
+                <p>Biznesingizni keyingi bosqichga olib chiquvchi zamonaviy veb-saytlar va ilovalar dizayni.</p>
+                <div class="btn-group">
+                    <a href="#contact" class="btn btn-primary">Loyihani boshlash</a>
+                    <a href="#works" class="btn btn-outline">Portfolio ko'rish</a>
+                </div>
+            </div>
+            <div class="hero-image-box">
+                <img src="images/hero.jpg" alt="Dizayner Rasmi">
+            </div>
+        </div>
+    </section>
+
+    <div class="tech-stack">
+        <div class="container">
+            <div class="tech-icons">
+                <i class="fab fa-html5" title="HTML5"></i>
+                <i class="fab fa-css3-alt" title="CSS3"></i>
+                <i class="fab fa-js" title="JavaScript"></i>
+                <i class="fab fa-react" title="React"></i>
+                <i class="fab fa-figma" title="Figma"></i>
+                <i class="fab fa-python" title="Python"></i>
+            </div>
+        </div>
+    </div>
+
+    <section id="about" class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Men Haqimda</h2>
+            <p class="section-subtitle">Tajriba, natija va yondashuv.</p>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Mijozlar uchun sifatli yechim</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        Men shunchaki sayt yasaymayman, men biznes muammolarini hal qiladigan raqamli mahsulotlar yarataman. Har bir piksilda aniqlik va har bir qatorda tozalik bo'lishiga intilaman.
+                    </p>
+                    <p style="color: var(--text-muted);">
+                        Maqsadim — sizning g'oyangizni real, ishlaydigan va daromad keltiradigan loyihaga aylantirish.
+                    </p>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Muvaffaqiyatli Loyiha</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Mijoz Roziligi</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">1 yil</span>
+                        <span class="stat-label">Tijoriy Tajriba</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Doimiy Aloqa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section-padding reveal" style="background: rgba(255,255,255,0.02);">
+        <div class="container">
+            <h2 class="section-title">Xizmatlarim</h2>
+            <p class="section-subtitle">Siz uchun nimalar qila olaman?</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Landing Page</h3>
+                    <p>Mahsulot yoki xizmatingizni sotish uchun mo'ljallangan, yuqori konversiyali bir sahifali saytlar.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Web Ilovalar</h3>
+                    <p>Murakkab funksionallikka ega, boshqaruv paneli va ma'lumotlar bazasi bilan ishlaydigan tizimlar.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h3>UI/UX Dizayn</h3>
+                    <p>Foydalanuvchilar uchun qulay va estetik jihatdan chiroyli interfeyslar (Figma).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">Ish Jarayoni</h2>
+            <p class="section-subtitle" style="text-align: center; margin: 0 auto 60px;">G'oyadan natijagacha bo'lgan yo'l.</p>
+            <div class="process-steps">
+                <div class="process-card">
+                    <span class="process-bg-num">1</span>
+                    <h4 class="process-title">Tahlil</h4>
+                    <p class="process-desc">Biznes va muammoni chuqur o'rganish.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-bg-num">2</span>
+                    <h4 class="process-title">Dizayn</h4>
+                    <p class="process-desc">Foydalanuvchiga qulay interfeys yaratish.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-bg-num">3</span>
+                    <h4 class="process-title">Kodlash</h4>
+                    <p class="process-desc">Toza va tez ishlaydigan kod yozish.</p>
+                </div>
+                <div class="process-card">
+                    <span class="process-bg-num">4</span>
+                    <h4 class="process-title">Natija</h4>
+                    <p class="process-desc">Loyihani test qilish va topshirish.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="section-padding reveal">
+        <div class="container">
+            <h2 class="section-title">Portfolio</h2>
+            <p class="section-subtitle">So'nggi bajarilgan ishlarim.</p>
+            <div class="works-grid">
+                <div class="work-card" onclick="openModal('https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop', 'Kreativ Landing Page', 'Tech Startap', 'HTML, CSS, JS')">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop" alt="Web Design">
+                    <div class="work-overlay">
+                        <span class="work-cat">Website</span>
+                        <h3 class="work-title">Kreativ Landing Page</h3>
+                        <span class="work-link">Ko'rish <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="work-card" onclick="openModal('https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=800&auto=format&fit=crop', 'Yetkazib berish Ilovasi', 'Express Food', 'React Native, Figma')">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=800&auto=format&fit=crop" alt="Mobile App">
+                    <div class="work-overlay">
+                        <span class="work-cat">Mobile App</span>
+                        <h3 class="work-title">Yetkazib berish Ilovasi</h3>
+                        <span class="work-link">Ko'rish <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="work-card" onclick="openModal('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=800&auto=format&fit=crop', 'Zamonaviy Korporativ Sayt', 'Global Tech Solutions', 'To\'liq Web Dizayn va Frontend')">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=800&auto=format&fit=crop" alt="Website Design">
+                    <div class="work-overlay">
+                        <span class="work-cat">Website</span>
+                        <h3 class="work-title">Zamonaviy Korporativ Sayt</h3>
+                        <span class="work-link">Ko'rish <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding reveal" style="padding-bottom: 0;">
+        <div class="container">
+            <div class="contact-section">
+                <div class="contact-overlay"></div>
+                </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2 class="contact-title-footer">Hamkorlikka tayyormisiz?</h2>
+            <p class="contact-text-footer">G'oyalaringizni amalga oshirish va biznesingizni rivojlantirish uchun bugunoq bog'laning.</p>
+
+            <div class="contact-buttons-wrapper">
+                <div class="contact-grid">
+                    <a href="https://t.me/Huzayfa12312022" target="_blank" class="btn-social btn-tg">
+                        <i class="fab fa-telegram-plane"></i> Telegramda Yozish
+                    </a>
+                    <a href="https://www.instagram.com/digi_taluz?igsh=Zzd2Y3p0eXl1em9o" target="_blank" class="btn-social btn-insta">
+                        <i class="fab fa-instagram"></i> Instagramni Ko'rish
+                    </a>
+                </div>
+            </div>
+            
+            <div class="logo" style="justify-content: center; margin-bottom: 20px;">OSONWEB<span>.uz</span></div>
+            <p>© 2026 Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" alt="Project" class="modal-img">
+            <h3 id="modalTitle" style="color: #fff; margin-bottom: 10px;">Loyiha Nomi</h3>
+            <p id="modalClient" style="color: var(--primary); margin-bottom: 5px; font-weight: 600;"></p>
+            <p id="modalTask" style="color: var(--text-muted); margin-bottom: 20px;"></p>
+            <button onclick="closeModal()" class="btn btn-primary" style="width: 100%;">Yopish</button>
+        </div>
+    </div>
+
+    <script>
+        const textElement = document.getElementById('typing-text');
+        const words = ["yechimlar", "mahsulotlar", "dizaynlar"];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            textElement.textContent = isDeleting ? currentWord.substring(0, charIndex - 1) : currentWord.substring(0, charIndex + 1);
+            charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+            let typeSpeed = isDeleting ? 50 : 100;
+            if (!isDeleting && charIndex === currentWord.length) { typeSpeed = 2000; isDeleting = true; }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; typeSpeed = 500; }
+            setTimeout(type, typeSpeed);
+        }
+
+        const modal = document.getElementById('projectModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalClient = document.getElementById('modalClient');
+        const modalTask = document.getElementById('modalTask');
+        const body = document.body;
+
+        function openModal(imgSrc, title, client, task) {
+            modalImg.src = imgSrc; 
+            modalTitle.textContent = title; 
+            modalClient.textContent = "Mijoz: " + client; 
+            modalTask.textContent = "Texnologiyalar: " + task;
+            modal.style.display = 'flex'; 
+            setTimeout(() => { modal.classList.add('show'); }, 10); 
+            body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            modal.classList.remove('show'); 
+            setTimeout(() => { modal.style.display = 'none'; body.style.overflow = 'auto'; }, 300);
+        }
+        window.onclick = function(event) { if (event.target == modal) { closeModal(); } }
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger i');
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                hamburger.classList.remove('fa-bars');
+                hamburger.classList.add('fa-times');
+            } else {
+                hamburger.classList.remove('fa-times');
+                hamburger.classList.add('fa-bars');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('active'));
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
